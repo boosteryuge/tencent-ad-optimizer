@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tencent-ad-optimizer"
+version = "0.1.0"
+description = "腾讯广告投放优化师 Agent：止损暂停、预算再分配、创意优化，提升 ROI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.28",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+llm = ["openai>=1.0"]
+test = ["pytest>=7.0"]
+
+[project.scripts]
+ad-optimizer = "ad_optimizer.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
