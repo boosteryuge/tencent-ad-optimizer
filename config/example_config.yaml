@@ -1,0 +1,47 @@
+# 复制为 config/local_config.yaml 并按需修改（已加入 .gitignore）
+# 所有「元」会在加载时自动换算为「分」，策略内部统一用分。
+
+account_id: 0   # 替换为你的广告主帐号 id（或运行时用 --account-id 覆盖）
+
+api:
+  base_url: "https://api.e.qq.com"
+  version: "v3.0"
+  access_token_env: "TENCENT_ADS_ACCESS_TOKEN"
+  timeout: 30
+
+targets:
+  target_cpa_yuan: 80          # 目标转化成本（元）
+  target_roas: 2.0             # 目标 ROAS（收入/花费）
+  min_daily_budget_yuan: 50    # 单计划日预算下限（元）
+
+strategies:
+  loss_cutting:
+    enabled: true
+    min_observation_spend_yuan: 300   # 花费不足此数不评判（给计划学习期）
+    min_observation_days: 3
+    max_cpa_multiplier: 2.0           # CPA 超过目标 2 倍即判定差
+    min_impressions: 1000
+    min_ctr: 0.003                     # 0.3%
+    max_pause_ratio: 0.5               # 单轮最多暂停 50% 在投计划
+  budget_reallocation:
+    enabled: true
+    min_observation_spend_yuan: 200
+    shift_ratio: 0.2                   # 从差计划抽 20% 预算给好计划
+    loser_roas_threshold: 0.8          # ROAS < 0.8*目标 视为差
+    max_shift_yuan_per_campaign: 2000
+    max_total_shift_ratio: 0.3
+  creative_optimization:
+    enabled: true
+    max_cpa_multiplier: 2.0
+    min_impressions: 500
+
+safety:
+  dry_run_default: true
+  require_approval: false
+  min_observation_days: 2
+
+llm:
+  enabled: false
+  base_url: "https://api.openai.com/v1"
+  model: "gpt-4o-mini"
+  api_key_env: "OPENAI_API_KEY"
